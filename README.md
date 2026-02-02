@@ -1,36 +1,125 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ScriptCursor
+
+A specialized IDE for screenwriting with AI assistance, built with Next.js 15, Tiptap, and OpenRouter.
+
+## Features
+
+- 🎬 **Fountain Format Support**: Native screenplay editing with proper formatting
+- 🤖 **AI-Powered Editing**: Cmd+K inline editing with multiple AI models
+- 💬 **Context-Aware Chat**: Composer sidebar for full-document analysis
+- 💾 **Auto-Save**: Automatic saving to NeonDB
+- 🎨 **Modern UI**: Built with Shadcn UI and Tailwind CSS
+
+## Tech Stack
+
+- **Framework**: Next.js 15 (App Router)
+- **Editor**: Tiptap with custom Fountain extensions
+- **Database**: NeonDB (PostgreSQL) with Drizzle ORM
+- **AI**: OpenRouter (Claude, DeepSeek, Gemini, Llama)
+- **State**: Zustand
+- **UI**: Shadcn UI + Tailwind CSS
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18+ 
+- npm, yarn, pnpm, or bun
+- NeonDB account (for database)
+- OpenRouter API key (for AI features)
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <your-repo-url>
+   cd scriptcursor
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Set up environment variables:
+   Create a `.env.local` file:
+   ```env
+   DATABASE_URL=your_neon_connection_string
+   OPENROUTER_API_KEY=your_openrouter_api_key
+   NEXT_PUBLIC_APP_URL=http://localhost:3000
+   ```
+
+4. Set up the database:
+   ```bash
+   npm run db:push
+   ```
+
+5. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+6. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Deployment
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions to Vercel.
+
+Quick deploy to Vercel:
+
+1. Push your code to GitHub
+2. Import project in [Vercel](https://vercel.com)
+3. Add environment variables in Vercel dashboard
+4. Run `npm run db:push` locally with Vercel env vars, or use Neon SQL editor
+
+## Project Structure
+
+```
+scriptcursor/
+├── app/                    # Next.js app router
+│   ├── actions/           # Server actions
+│   ├── api/               # API routes
+│   ├── editor/            # Editor pages
+│   └── page.tsx           # Home page
+├── components/
+│   ├── ai/               # AI components (Cmd+K, Diff viewer)
+│   ├── composer/         # Composer sidebar
+│   ├── editor/           # Script editor
+│   └── ui/               # Shadcn UI components
+├── lib/
+│   ├── ai/               # AI client and models
+│   ├── db/               # Database schema and functions
+│   ├── fountain/         # Fountain parser
+│   ├── hooks/            # React hooks
+│   ├── store/            # Zustand store
+│   └── tiptap/           # Tiptap extensions
+└── drizzle.config.ts     # Drizzle configuration
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run db:generate` - Generate database migrations
+- `npm run db:push` - Push schema to database
+- `npm run db:studio` - Open Drizzle Studio
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment Variables
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `DATABASE_URL` | NeonDB connection string | Yes |
+| `OPENROUTER_API_KEY` | OpenRouter API key | Yes |
+| `NEXT_PUBLIC_APP_URL` | App URL (auto-set in Vercel) | No |
+
+## License
+
+MIT
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tiptap Documentation](https://tiptap.dev)
+- [Fountain Format](https://fountain.io)
+- [OpenRouter Documentation](https://openrouter.ai/docs)
