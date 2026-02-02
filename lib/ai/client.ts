@@ -1,13 +1,30 @@
 import OpenAI from 'openai';
 import { OPENROUTER_BASE_URL, getModelForTask, ModelTaskType } from './models';
 
-if (!process.env.OPENROUTER_API_KEY) {
-  throw new Error('OPENROUTER_API_KEY is not set');
+function getOpenRouterApiKey() {
+  if (!process.env.OPENROUTER_API_KEY) {
+    throw new Error('OPENROUTER_API_KEY is not set. Please add it to your environment variables.');
+  }
+  return process.env.OPENROUTER_API_KEY;
 }
 
-export const openRouterClient = new OpenAI({
-  apiKey: process.env.OPENROUTER_API_KEY,
-  baseURL: OPENROUTER_BASE_URL,
+let openRouterClientInstance: OpenAI | null = null;
+
+export function getOpenRouterClient() {
+  if (!openRouterClientInstance) {
+    openRouterClientInstance = new OpenAI({
+      apiKey: getOpenRouterApiKey(),
+      baseURL: OPENROUTER_BASE_URL,
+    });
+  }
+  return openRouterClientInstance;
+}
+
+// Export for backward compatibility
+export const openRouterClient = new Proxy({} as OpenAI, {
+  get(_target, prop) {
+    return getOpenRouterClient()[prop as keyof OpenAI];
+  },
 });
 
 export interface StreamOptions {
@@ -41,7 +58,7 @@ Instruction: ${options.instruction}
 
 Return only the edited text in valid Fountain format, maintaining the same structure as the original.`;
 
-  const stream = await openRouterClient.chat.completions.create({
+  const stream = await getOpenRouterClient().chat.completions.create({
     model,
     messages: [
       { role: 'system', content: systemPrompt },

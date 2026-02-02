@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
-import { streamAIResponse, ModelTaskType } from '@/lib/ai/client';
+import { streamAIResponse } from '@/lib/ai/client';
+import { ModelTaskType } from '@/lib/ai/models';
 
 export async function POST(request: NextRequest) {
   try {

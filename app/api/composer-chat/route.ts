@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { openRouterClient } from '@/lib/ai/client';
+import { getOpenRouterClient } from '@/lib/ai/client';
 import { getModelForTask } from '@/lib/ai/models';
 
 export async function POST(request: NextRequest) {
@@ -23,7 +23,7 @@ Always be constructive and specific in your feedback.`;
       },
     ];
 
-    const stream = await openRouterClient.chat.completions.create({
+    const stream = await getOpenRouterClient().chat.completions.create({
       model,
       messages,
       stream: true,
