@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import Link from 'next/link';
 import { listScripts } from '@/lib/db/scripts';
 import { createOrGetUserAction } from '@/app/actions/user';
+import { FileUpload } from '@/components/upload/FileUpload';
 
 // Temporary: For demo purposes, using a default user
 // In production, this would come from authentication
@@ -60,9 +61,12 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000`}
               Your AI-powered screenwriting IDE
             </p>
           </div>
-          <Link href="/editor/new">
-            <Button>New Script</Button>
-          </Link>
+          <div className="flex gap-2">
+            <FileUpload />
+            <Link href="/editor/new">
+              <Button>New Script</Button>
+            </Link>
+          </div>
         </div>
 
         {scripts.length === 0 ? (

@@ -12,6 +12,8 @@ import { createOrGetUserAction } from '@/app/actions/user';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
+import { FileUpload } from '@/components/upload/FileUpload';
+import { ExportScript } from '@/components/export/ExportScript';
 
 const DEFAULT_USER_EMAIL = 'demo@scriptcursor.com';
 
@@ -132,6 +134,13 @@ export default function EditorPage() {
             <span className="text-xs text-muted-foreground">
               {getSaveStatusText()}
             </span>
+            <FileUpload
+              size="sm"
+              onUploadComplete={(scriptId) => {
+                router.push(`/editor/${scriptId}`);
+              }}
+            />
+            <ExportScript size="sm" />
             <Button
               onClick={() => setIsComposerOpen(!isComposerOpen)}
               variant="outline"

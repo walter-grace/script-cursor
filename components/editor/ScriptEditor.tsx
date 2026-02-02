@@ -9,7 +9,7 @@ import { Character } from '@/lib/tiptap/extensions/fountain-character';
 import { Dialogue } from '@/lib/tiptap/extensions/fountain-dialogue';
 import { Action } from '@/lib/tiptap/extensions/fountain-action';
 import { parseFountainToTiptap, parseTiptapToFountain } from '@/lib/fountain/parser';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface ScriptEditorProps {
   content?: string;
@@ -26,6 +26,12 @@ export function ScriptEditor({
   placeholder = 'FADE IN:',
   editable = true,
 }: ScriptEditorProps) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -46,6 +52,7 @@ export function ScriptEditor({
     ],
     content: content ? parseFountainToTiptap(content) : undefined,
     editable,
+    immediatelyRender: false,
     onUpdate: ({ editor }) => {
       if (onChange) {
         const fountainText = parseTiptapToFountain(editor.getJSON());
@@ -80,8 +87,12 @@ export function ScriptEditor({
     }
   }, [content, editor]);
 
-  if (!editor) {
-    return null;
+  if (!isMounted || !editor) {
+    return (
+      <div className="w-full border rounded-lg overflow-hidden min-h-[500px] p-8 flex items-center justify-center">
+        <div className="text-muted-foreground">Loading editor...</div>
+      </div>
+    );
   }
 
   return (
